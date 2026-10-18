@@ -2,7 +2,11 @@
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Painel de Validades e Alertas</h2>
+    <div>
+        <h2 class="mb-0">Painel de Validades e Alertas</h2>
+        <p class="text-muted mb-0">Lotes ativos ordenados pela validade mais próxima.</p>
+    </div>
+    <span class="badge bg-{{ 'danger' if lotes_urgentes else 'success' }} fs-6">{{ lotes_urgentes|length }} lote(s) crítico(s)</span>
 </div>
 
 <section class="card shadow-sm mb-4" aria-labelledby="titulo-clima" id="cartao-clima"
@@ -42,15 +46,17 @@
 </section>
 {% endif %}
 
-<div class="card shadow-sm">
+<section class="card shadow-sm" aria-labelledby="titulo-lotes-ativos">
+    <h3 id="titulo-lotes-ativos" class="visually-hidden">Lotes ativos por validade</h3>
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
             <thead class="table-secondary">
                 <tr>
                     <th>Produto</th>
                     <th>Categoria</th>
-                    <th>Código</th>
-                    <th>Estoque</th>
+                    <th>Lote</th>
+                    <th>Local</th>
+                    <th>Saldo</th>
                     <th>Validade</th>
                     <th>Dias Restantes</th>
                     <th>Status / Ação</th>
@@ -58,33 +64,50 @@
                 </tr>
             </thead>
             <tbody>
-                {% for prod in produtos %}
+                {% for lote in lotes_ativos %}
                 <tr>
-                    <td class="fw-semibold">{{ prod.nome }}</td>
-                    <td><span class="badge bg-secondary">{{ prod.categoria }}</span></td>
-                    <td><code>{{ prod.codigo_barras }}</code></td>
-                    <td>{{ prod.quantidade_estoque }} {{ prod.unidade_medida }}</td>
-                    <td>{{ prod.data_validade.strftime('%d/%m/%Y') }}</td>
-                    <td><strong>{{ prod.dias_para_vencer }} dia(s)</strong></td>
+                    <td class="fw-semibold">{{ lote.produto.nome }}</td>
+                    <td><span class="badge bg-secondary">{{ lote.produto.categoria }}</span></td>
+                    <td><code>{{ lote.codigo_lote }}</code></td>
+                    <td>{{ lote.local_armazenamento or '-' }}</td>
+                    <td>{{ lote.quantidade_atual }} {{ lote.produto.unidade_medida }}</td>
+                    <td>{{ lote.data_validade.strftime('%d/%m/%Y') }}</td>
+                    <td><strong>{{ lote.dias_para_vencer }} dia(s)</strong></td>
                     <td>
-                        <span class="badge bg-{{ prod.status_alerta.tipo }}">
-                            {{ prod.status_alerta.texto }}
+                        <span class="badge bg-{{ lote.status_alerta.tipo }}">
+                            {{ lote.status_alerta.texto }}
                         </span>
                     </td>
                     <td>
-                        <a href="{{ url_for('lotes_produto', produto_id=prod.id) }}" class="btn btn-outline-primary btn-sm">Lotes</a>
-                        <a href="{{ url_for('registrar_baixa', produto_id=prod.id) }}" class="btn btn-outline-danger btn-sm">Dar Baixa</a>
+                        <a href="{{ url_for('lotes_produto', produto_id=lote.produto.id) }}" class="btn btn-outline-primary btn-sm">Lotes</a>
+                        <a href="{{ url_for('registrar_baixa', produto_id=lote.produto.id) }}" class="btn btn-outline-danger btn-sm">Dar Baixa</a>
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="7" class="text-center py-4 text-muted">Nenhum produto cadastrado ainda.</td>
+                    <td colspan="9" class="text-center py-4 text-muted">Nenhum lote ativo cadastrado ainda.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-</div>
+</section>
+
+{% if produtos_sem_lote %}
+<section class="card shadow-sm mt-4" aria-labelledby="titulo-produtos-sem-lote">
+    <div class="card-header bg-warning-subtle">
+        <h3 id="titulo-produtos-sem-lote" class="h5 mb-0">Produtos sem lote cadastrado</h3>
+    </div>
+    <div class="card-body">
+        <p class="text-muted">Estes produtos são registros antigos. Cadastre um lote para que passem a receber alertas detalhados.</p>
+        <ul class="mb-0">
+            {% for produto in produtos_sem_lote %}
+            <li><a href="{{ url_for('lotes_produto', produto_id=produto.id) }}">{{ produto.nome }}</a> — {{ produto.quantidade_estoque }} {{ produto.unidade_medida }} em estoque.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}
 {% endblock %}
 
 {% block scripts %}

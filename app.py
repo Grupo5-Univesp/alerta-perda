@@ -24,9 +24,16 @@ with app.app_context():
 
 @app.route('/')
 def index():
-    produtos = Produto.query.order_by(Produto.data_validade.asc()).all()
+    lotes_ativos = Lote.query.filter(
+        Lote.quantidade_atual > 0
+    ).order_by(Lote.data_validade.asc()).all()
+    produtos_sem_lote = Produto.query.filter(
+        ~Produto.lotes.any()
+    ).order_by(Produto.data_validade.asc()).all()
+    lotes_urgentes = [lote for lote in lotes_ativos if lote.dias_para_vencer <= 2]
     return render_template(
-        'index.html', produtos=produtos, clima=get_weather(), clima_config=get_weather_config()
+        'index.html', lotes_ativos=lotes_ativos, produtos_sem_lote=produtos_sem_lote,
+        lotes_urgentes=lotes_urgentes, clima=get_weather(), clima_config=get_weather_config()
     )
 
 @app.route('/produto/novo', methods=['GET', 'POST'])
