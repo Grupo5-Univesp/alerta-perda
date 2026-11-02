@@ -9,23 +9,44 @@ Sistema de monitoramento preditivo de validades e prevenção de perdas no varej
 - Gestão de equipe e fiscais de prevenção.
 - API REST para integração com sistemas de PDV (`/api/produtos/alertas`).
 - Integração meteorológica com Open-Meteo (`/api/clima`) para apoiar a rotina operacional.
+- Login com perfis de administrador, gerente e operador.
+- Saída por venda e remanejamento entre locais, preservando o histórico de movimentações.
+- Indicadores consolidados de perdas por categoria e motivo.
+- Recursos de acessibilidade: atalho para conteúdo principal, foco visível, mensagens anunciáveis e rótulos associados aos campos.
 
 ## Como Executar
 
 1. Crie e ative o ambiente virtual:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # ou source venv/bin/activate.fish
+   ```powershell
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
 
 2. Instale as dependências:
-    ```bash
+    ```powershell
     pip install -r requirements.txt
 
 3. Inicie o servidor:
-    ```bash
-    python app.py
+    ```powershell
+    python run_local.py
 
 Acesse em: http://127.0.0.1:5000
+
+## Primeiro acesso local
+
+Ao iniciar uma base local pela primeira vez, o sistema cria o usuário de demonstração abaixo. Altere a senha por variável de ambiente antes de qualquer publicação real.
+
+```text
+Matrícula: ADMIN-001
+Senha local: admin123
+```
+
+Perfis: `administrador` gerencia usuários e todas as configurações; `gerente` registra entradas e consulta indicadores; `operador` registra inspeções, baixas e movimentações.
+
+## Verificação
+
+```powershell
+.\.venv311\Scripts\python.exe -m unittest discover -s tests -v
+```
 
 ## Configuração do clima
 

@@ -7,22 +7,24 @@
             <h4 class="mb-3">Cadastrar Fiscal/Operador</h4>
             <form method="POST">
                 <div class="mb-3">
-                    <label class="form-label">Nome Completo</label>
-                    <input type="text" name="nome" class="form-control" placeholder="Ex: Carlos Silva" required>
+                    <label for="nome" class="form-label">Nome Completo</label>
+                    <input id="nome" type="text" name="nome" class="form-control" placeholder="Ex: Carlos Silva" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Matrícula</label>
-                    <input type="text" name="matricula" class="form-control" placeholder="Ex: MAT-1020" required>
+                    <label for="matricula" class="form-label">Matrícula</label>
+                    <input id="matricula" type="text" name="matricula" class="form-control" placeholder="Ex: MAT-1020" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Cargo / Função</label>
-                    <select name="cargo" class="form-select" required>
+                    <label for="cargo" class="form-label">Cargo / Função</label>
+                    <select id="cargo" name="cargo" class="form-select" required>
                         <option value="Fiscal de Prevenção de Perdas">Fiscal de Prevenção de Perdas</option>
                         <option value="Gerente de Loja">Gerente de Loja</option>
                         <option value="Líder de Hortifrúti (FLV)">Líder de Hortifrúti (FLV)</option>
                         <option value="Encarregado de Açougue">Encarregado de Açougue</option>
                     </select>
                 </div>
+                <div class="mb-3"><label for="perfil" class="form-label">Perfil de acesso</label><select id="perfil" name="perfil" class="form-select"><option value="operador">Operador</option><option value="gerente">Gerente</option><option value="administrador">Administrador</option></select></div>
+                <div class="mb-3"><label for="senha" class="form-label">Senha inicial</label><input id="senha" type="password" name="senha" class="form-control" minlength="6" required></div>
                 <button type="submit" class="btn btn-dark w-100">Salvar Cadastro</button>
             </form>
         </div>
@@ -40,6 +42,7 @@
                             <th>Matrícula</th>
                             <th>Nome</th>
                             <th>Cargo</th>
+                            <th>Perfil</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,10 +51,11 @@
                             <td><code>{{ u.matricula }}</code></td>
                             <td class="fw-semibold">{{ u.nome }}</td>
                             <td><span class="badge bg-light text-dark border">{{ u.cargo }}</span></td>
+                            <td><span class="badge bg-primary">{{ u.nome_perfil }}</span></td>
                         </tr>
                         {% else %}
                         <tr>
-                            <td colspan="3" class="text-center py-4 text-muted">Nenhum colaborador cadastrado.</td>
+                            <td colspan="4" class="text-center py-4 text-muted">Nenhum colaborador cadastrado.</td>
                         </tr>
                         {% endfor %}
                     </tbody>

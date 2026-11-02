@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-md-7"><section class="card shadow-sm p-4" aria-labelledby="titulo-movimentacao">
+<h1 id="titulo-movimentacao" class="h3">Movimentar estoque</h1><p class="text-muted">{{ produto.nome }} · {{ produto.unidade_medida }}</p>
+{% if erro %}<div class="alert alert-danger" role="alert">{{ erro }}</div>{% endif %}
+<form method="post">
+<div class="mb-3"><label for="tipo" class="form-label">Tipo de movimentação</label><select id="tipo" name="tipo" class="form-select" required><option value="saida_venda">Saída por venda</option><option value="remanejamento">Remanejamento entre locais</option></select></div>
+<div class="mb-3"><label for="lote_id" class="form-label">Lote de origem</label><select id="lote_id" name="lote_id" class="form-select" required><option value="">Selecione o lote</option>{% for lote in lotes %}<option value="{{ lote.id }}" data-saldo="{{ lote.quantidade_atual }}">{{ lote.codigo_lote }} · {{ lote.local_armazenamento or 'Sem local' }} · saldo {{ lote.quantidade_atual }}</option>{% endfor %}</select></div>
+<div class="mb-3"><label for="quantidade" class="form-label">Quantidade ({{ produto.unidade_medida }})</label><input id="quantidade" type="number" min="0.01" step="0.01" name="quantidade" class="form-control" required></div>
+<div id="campo-destino" class="mb-3 d-none"><label for="local_destino" class="form-label">Local de destino</label><input id="local_destino" name="local_destino" class="form-control" placeholder="Ex.: Câmara fria 2"></div>
+<div class="mb-3"><label for="observacao" class="form-label">Observação</label><textarea id="observacao" name="observacao" class="form-control" rows="2"></textarea></div>
+<div class="d-flex justify-content-between"><a href="{{ url_for('lotes_produto', produto_id=produto.id) }}" class="btn btn-outline-secondary">Cancelar</a><button class="btn btn-primary">Registrar movimentação</button></div>
+</form></section></div></div>
+{% endblock %}
+{% block scripts %}<script>const tipo=document.querySelector('#tipo'),campo=document.querySelector('#campo-destino'),lote=document.querySelector('#lote_id'),q=document.querySelector('#quantidade'); function atualizar(){campo.classList.toggle('d-none',tipo.value!=='remanejamento');} tipo.addEventListener('change',atualizar); lote.addEventListener('change',()=>{q.max=lote.options[lote.selectedIndex].dataset.saldo||''}); atualizar();</script>{% endblock %}

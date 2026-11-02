@@ -21,3 +21,12 @@ class ClimateRecommendationTest(unittest.TestCase):
 
         self.assertEqual(recommendation["nivel"], "success")
         self.assertEqual(len(recommendation["dias_quentes"]), 1)
+
+    def test_recommendation_adapts_to_active_categories(self):
+        recommendation = get_climate_recommendation({
+            "time": ["2026-10-10", "2026-10-11", "2026-10-12"],
+            "temperature_2m_max": [32.0, 33.0, 34.0],
+        }, ["Laticínios e Frios"])
+
+        self.assertTrue(any("Laticínios" in action for action in recommendation["acoes"]))
+        self.assertFalse(any("Carnes" in action for action in recommendation["acoes"]))

@@ -81,6 +81,7 @@
                     <td>
                         <a href="{{ url_for('lotes_produto', produto_id=lote.produto.id) }}" class="btn btn-outline-primary btn-sm">Lotes</a>
                         <a href="{{ url_for('registrar_baixa', produto_id=lote.produto.id) }}" class="btn btn-outline-danger btn-sm">Dar Baixa</a>
+                        <a href="{{ url_for('movimentacao', produto_id=lote.produto.id) }}" class="btn btn-outline-secondary btn-sm">Movimentar</a>
                     </td>
                 </tr>
                 {% else %}

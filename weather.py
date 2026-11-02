@@ -28,7 +28,7 @@ def get_weather_config():
     }
 
 
-def get_weather():
+def get_weather(categories=None):
     """Obtém as condições atuais e a previsão de hoje para o local configurado."""
     config = get_weather_config()
     params = {
@@ -47,7 +47,7 @@ def get_weather():
     current = payload.get("current", {})
     daily = payload.get("daily", {})
     weather_code = current.get("weather_code")
-    recommendation = get_climate_recommendation(daily)
+    recommendation = get_climate_recommendation(daily, categories)
     return {
         "localidade": config["location"],
         "temperatura": current.get("temperature_2m"),
@@ -68,7 +68,7 @@ def _first(data, key):
     return values[0] if values else None
 
 
-def get_climate_recommendation(daily):
+def get_climate_recommendation(daily, categories=None):
     """Cria uma recomendação operacional fictícia a partir dos próximos 10 dias."""
     dates = daily.get("time", [])
     max_temperatures = daily.get("temperature_2m_max", [])
@@ -78,7 +78,17 @@ def get_climate_recommendation(daily):
         if maximum is not None and maximum >= HEAT_THRESHOLD_C
     ]
 
+    categories = set(categories or [])
     if len(hot_days) >= HEAT_DAYS_THRESHOLD:
+        actions = [
+            "Priorizar produtos próximos do vencimento em ações comerciais preventivas.",
+        ]
+        if "Hortifrúti (FLV)" in categories:
+            actions.insert(0, "Hortifruti: reforçar o giro e a inspeção dos itens mais sensíveis.")
+        if "Carnes e Aves" in categories:
+            actions.insert(0, "Carnes e aves: conferir balcões e câmaras com maior frequência.")
+        if "Laticínios e Frios" in categories:
+            actions.insert(0, "Laticínios e frios: confirmar a cadeia de refrigeração e reduzir exposição.")
         return {
             "nivel": "warning",
             "titulo": "Atenção: período de calor previsto",
@@ -86,11 +96,7 @@ def get_climate_recommendation(daily):
                 f"Há {len(hot_days)} dias com máxima prevista de {HEAT_THRESHOLD_C} °C "
                 "ou mais nos próximos 10 dias."
             ),
-            "acoes": [
-                "Hortifruti: reforçar o giro e a inspeção dos itens mais sensíveis.",
-                "Carnes: conferir a temperatura dos balcões e câmaras com maior frequência.",
-                "Priorizar produtos próximos do vencimento em ações comerciais preventivas.",
-            ],
+            "acoes": actions,
             "dias_quentes": hot_days,
         }
 

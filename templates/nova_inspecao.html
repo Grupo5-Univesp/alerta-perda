@@ -7,8 +7,8 @@
             <h3 class="mb-3">Registrar Inspeção de Ronda</h3>
             <form method="POST">
                 <div class="mb-3">
-                    <label class="form-label">Fiscal Responsável</label>
-                    <select name="fiscal_id" class="form-select" required>
+                    <label for="fiscal_id" class="form-label">Fiscal Responsável</label>
+                    <select id="fiscal_id" name="fiscal_id" class="form-select" required>
                         <option value="" disabled selected>Selecione quem realizou a ronda...</option>
                         {% for u in usuarios %}
                             <option value="{{ u.id }}">{{ u.nome }} ({{ u.cargo }})</option>
@@ -16,8 +16,8 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Setor Auditado</label>
-                    <select name="setor" class="form-select" required>
+                    <label for="setor" class="form-label">Setor Auditado</label>
+                    <select id="setor" name="setor" class="form-select" required>
                         <option value="Ilha de Carnes Refrigeradas">Ilha de Carnes Refrigeradas</option>
                         <option value="Balcão de Congelados">Balcão de Congelados</option>
                         <option value="Bancas de FLV (Frutas e Verduras)">Bancas de FLV (Frutas e Verduras)</option>
@@ -26,12 +26,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Temperatura Aferida (°C)</label>
-                        <input type="number" step="0.1" name="temperatura_aferida" class="form-control" placeholder="Ex: 3.5">
+                        <label for="temperatura_aferida" class="form-label">Temperatura Aferida (°C)</label>
+                        <input id="temperatura_aferida" type="number" step="0.1" name="temperatura_aferida" class="form-control" placeholder="Ex: 3.5">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Status do Mostruário</label>
-                        <select name="status_conformidade" class="form-select" required>
+                        <label for="status_conformidade" class="form-label">Status do Mostruário</label>
+                        <select id="status_conformidade" name="status_conformidade" class="form-select" required>
                             <option value="Conforme">Conforme (Tudo Regular)</option>
                             <option value="Alerta de Temperatura">Alerta de Temperatura</option>
                             <option value="Crítico / Não Conforme">Crítico / Não Conforme</option>
@@ -39,8 +39,8 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Observações da Ronda</label>
-                    <textarea name="observacao" class="form-control" rows="3" placeholder="Ex: Balcão 02 com condensação excessiva ou gôndola desorganizada..."></textarea>
+                    <label for="observacao" class="form-label">Observações da Ronda</label>
+                    <textarea id="observacao" name="observacao" class="form-control" rows="3" placeholder="Ex: Balcão 02 com condensação excessiva ou gôndola desorganizada..."></textarea>
                 </div>
                 <div class="d-flex justify-content-between mt-3">
                     <a href="{{ url_for('inspecoes') }}" class="btn btn-outline-secondary">Voltar</a>

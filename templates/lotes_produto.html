@@ -6,7 +6,10 @@
         <h2>Lotes de {{ produto.nome }}</h2>
         <p class="text-muted mb-0">Controle por lote · {{ produto.unidade_medida }}</p>
     </div>
-    <a href="{{ url_for('novo_lote', produto_id=produto.id) }}" class="btn btn-success">+ Novo Lote</a>
+    <div class="d-flex gap-2">
+        {% if usuario_logado.perfil in ['administrador', 'gerente'] %}<a href="{{ url_for('novo_lote', produto_id=produto.id) }}" class="btn btn-success">+ Novo Lote</a>{% endif %}
+        <a href="{{ url_for('movimentacao', produto_id=produto.id) }}" class="btn btn-outline-primary">Movimentar</a>
+    </div>
 </div>
 
 <div class="card shadow-sm">

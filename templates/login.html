@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Entrar - Alerta Perda{% endblock %}
+{% block content %}
+<div class="row justify-content-center pt-5"><div class="col-md-5 col-lg-4">
+    <section class="card shadow-sm p-4" aria-labelledby="titulo-login">
+        <h1 id="titulo-login" class="h3">Acessar o Alerta Perda</h1>
+        <p class="text-muted">Use sua matrícula e senha.</p>
+        <form method="post">
+            <div class="mb-3"><label for="matricula" class="form-label">Matrícula</label><input id="matricula" name="matricula" class="form-control" autocomplete="username" required autofocus></div>
+            <div class="mb-3"><label for="senha" class="form-label">Senha</label><input id="senha" type="password" name="senha" class="form-control" autocomplete="current-password" required></div>
+            <button class="btn btn-success w-100">Entrar</button>
+        </form>
+        <p class="small text-muted mt-3 mb-0">Ambiente local de demonstração: administrador <code>ADMIN-001</code>.</p>
+    </section>
+</div></div>
+{% endblock %}
