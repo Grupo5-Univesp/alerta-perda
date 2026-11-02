@@ -48,6 +48,10 @@ Perfis: `administrador` gerencia usuários e todas as configurações; `gerente`
 .\.venv311\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
+## Demonstração em nuvem com Streamlit
+
+O arquivo `streamlit_app.py` oferece uma versão pública de consulta com dados fictícios, preparada para o Streamlit Community Cloud. O passo a passo está em [STREAMLIT_DEPLOY.md](STREAMLIT_DEPLOY.md).
+
 ## Configuração do clima
 
 Por padrão, a integração consulta Pitangueiras-SP. Para configurar a localização do supermercado, defina as variáveis de ambiente abaixo antes de iniciar a aplicação:
