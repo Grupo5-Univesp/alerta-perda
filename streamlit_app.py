@@ -7,7 +7,6 @@ from sqlalchemy import func
 
 from app import app as flask_app
 from models import InspecaoSetor, Lote, MovimentacaoEstoque, Produto, RegistroPerda, Usuario, db
-from seed_demo import seed
 from weather import get_weather
 
 
@@ -20,10 +19,8 @@ def context(callback):
 
 
 def initialize():
-    def create_data():
-        if not Produto.query.first():
-            seed()
-    context(create_data)
+    """A inicialização do Flask cria o esquema e a conta administrativa."""
+    return None
 
 
 def current_user():
@@ -57,10 +54,6 @@ def login():
                 st.session_state.usuario_id = user_id
                 st.rerun()
             st.error("Matrícula ou senha inválida.")
-        with st.expander("Credenciais para apresentação"):
-            st.write("Administrador: ADMIN-001 / admin123")
-            st.write("Gerente: DEMO-002 / demo123")
-            st.write("Operador: DEMO-001 / demo123")
 
 
 def require(user, roles):
