@@ -9,6 +9,8 @@ etapa.
 - O arquivo render.yaml já cria o serviço Flask e o banco PostgreSQL.
 - A senha inicial do administrador será pedida pelo Render. Escolha uma senha
   forte e guarde-a. A matrícula inicial é ADMIN-001.
+- No primeiro deploy, o sistema cria automaticamente um catálogo inicial com
+  tomate, iogurte, leite, queijo e ovos, cada qual com lote e validade.
 
 ## Publicação
 

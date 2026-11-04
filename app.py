@@ -75,6 +75,9 @@ with app.app_context():
     db.create_all()
     migrate_local_database()
     ensure_admin()
+    if os.getenv('SEED_INITIAL_CATALOG', '').lower() in {'1', 'true', 'yes'} and not Produto.query.first():
+        from seed_demo import seed_video_catalog
+        seed_video_catalog()
 
 
 def current_user():
