@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: alerta-perda
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    healthCheckPath: /login
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: APP_SECRET_KEY
+        generateValue: true
+      - key: DEFAULT_ADMIN_PASSWORD
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: alerta-perda-db
+          property: connectionString
+      - key: WEATHER_LOCATION
+        value: Pitangueiras, SP
+      - key: WEATHER_LATITUDE
+        value: -21.0094
+      - key: WEATHER_LONGITUDE
+        value: -48.2217
+
+databases:
+  - name: alerta-perda-db
+    databaseName: alerta_perda
+    user: alerta_perda
+    plan: free

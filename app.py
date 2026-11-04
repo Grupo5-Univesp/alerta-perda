@@ -11,7 +11,15 @@ from weather import get_weather, get_weather_config
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('APP_SECRET_KEY', 'desenvolvimento-local-altere-em-producao')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///alerta_perda.db')
+
+# O Render fornece URLs PostgreSQL. O dialeto explicita o driver psycopg 3
+# usado na publicação, enquanto o ambiente local continua usando SQLite.
+database_url = os.getenv('DATABASE_URL', 'sqlite:///alerta_perda.db')
+if database_url.startswith('postgres://'):
+    database_url = database_url.replace('postgres://', 'postgresql+psycopg://', 1)
+elif database_url.startswith('postgresql://'):
+    database_url = database_url.replace('postgresql://', 'postgresql+psycopg://', 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'

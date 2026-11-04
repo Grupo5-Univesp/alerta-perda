@@ -48,9 +48,11 @@ Perfis: `administrador` gerencia usuários e todas as configurações; `gerente`
 .\.venv311\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-## Demonstração em nuvem com Streamlit
+## Publicação em nuvem
 
-O arquivo `streamlit_app.py` oferece uma versão pública de consulta com dados fictícios, preparada para o Streamlit Community Cloud. O passo a passo está em [STREAMLIT_DEPLOY.md](STREAMLIT_DEPLOY.md).
+Para publicar o sistema Flask original com banco de dados persistente, use o
+Render. O repositório inclui o arquivo `render.yaml`, que cria um serviço web
+e um banco PostgreSQL. O passo a passo está em [RENDER_DEPLOY.md](RENDER_DEPLOY.md).
 
 ## Configuração do clima
 

@@ -1,4 +1,8 @@
-# Publicação no Streamlit Community Cloud
+# Publicação no Streamlit Community Cloud (legado)
+
+> A publicação oficial do Alerta Perda usa o Flask original no Render. Consulte
+> [RENDER_DEPLOY.md](RENDER_DEPLOY.md). Este guia é mantido apenas como
+> referência histórica e não deve ser usado para a versão final.
 
 ## Finalidade
 
